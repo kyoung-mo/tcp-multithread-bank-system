@@ -1,6 +1,6 @@
 # 🏦 TCP Multithread Bank System
 
-> A multithreaded banking system implementation using TCP socket programming and POSIX threads in C
+> TCP 소켓 프로그래밍과 POSIX 스레드를 활용한 멀티스레드 은행 시스템 구현 (C 언어)
 
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
 ![POSIX](https://img.shields.io/badge/POSIX-Threads-green?style=for-the-badge)
@@ -9,21 +9,21 @@
 
 ## 📖 Overview
 
-This project demonstrates a **real-time banking system** where multiple clients can simultaneously perform banking operations through a server managing **5 worker threads (teller windows)**.
+여러 클라이언트가 **5개의 워커 스레드(창구)**를 통해 동시에 은행 업무를 처리할 수 있는 **실시간 은행 시스템**입니다.
 
 ### Key Features
 
-- ✅ **Thread Pool Pattern**: 5 pre-created worker threads for efficient resource management
-- ✅ **Waiting Queue System**: FIFO queue with priority-based allocation
-- ✅ **IP-based Authentication**: Client identification using IP address (10.10.16.200~224)
-- ✅ **Mutex Synchronization**: Thread-safe operations on shared resources
-- ✅ **Multi-session Support**: Continuous banking operations in a single session
+- ✅ **Thread Pool 패턴**: 5개의 사전 생성 워커 스레드로 효율적인 자원 관리
+- ✅ **대기 큐 시스템**: 우선순위 기반 배정을 지원하는 FIFO 큐
+- ✅ **IP 기반 인증**: IP 주소를 통한 클라이언트 식별 (10.10.16.200~224)
+- ✅ **Mutex 동기화**: 공유 자원에 대한 스레드 안전 처리
+- ✅ **멀티 세션 지원**: 단일 세션에서 연속적인 은행 업무 처리
 
 ### Banking Operations
 
-1. **Account Creation** 📝 - Create up to 5 bank accounts per client
-2. **Deposit** 💰 - Deposit to own or others' accounts
-3. **Withdrawal** 💸 - Withdraw from own accounts with password authentication
+1. **계좌 개설** 📝 - 클라이언트당 최대 5개 계좌 생성
+2. **입금** 💰 - 본인 또는 타인 계좌에 입금
+3. **출금** 💸 - 비밀번호 인증 후 본인 계좌에서 출금
 
 ---
 
@@ -31,21 +31,21 @@ This project demonstrates a **real-time banking system** where multiple clients 
 
 ```
 ┌─────────────────────────────────────────────────┐
-│              Main Thread (Bank)                  │
-│  - Accepts client connections                    │
-│  - IP authentication (10.10.16.200~224)         │
-│  - Assigns to worker threads or waiting queue   │
+│              메인 스레드 (은행)                   │
+│  - 클라이언트 접속 수락                           │
+│  - IP 인증 (10.10.16.200~224)                   │
+│  - 워커 스레드 또는 대기 큐에 배정               │
 └──────────┬──────────────────────────────────────┘
            │
-           ├─► Worker Thread 1 (Window 1) ─► Client A
-           ├─► Worker Thread 2 (Window 2) ─► Client B
-           ├─► Worker Thread 3 (Window 3) ─► Client C
-           ├─► Worker Thread 4 (Window 4) ─► Client D
-           ├─► Worker Thread 5 (Window 5) ─► Client E
+           ├─► 워커 스레드 1 (창구 1) ─► 클라이언트 A
+           ├─► 워커 스레드 2 (창구 2) ─► 클라이언트 B
+           ├─► 워커 스레드 3 (창구 3) ─► 클라이언트 C
+           ├─► 워커 스레드 4 (창구 4) ─► 클라이언트 D
+           ├─► 워커 스레드 5 (창구 5) ─► 클라이언트 E
            │
-           └─► Waiting Queue (Circular Queue)
-                ├─ Client F (1st in queue)
-                ├─ Client G (2nd in queue)
+           └─► 대기 큐 (원형 큐)
+                ├─ 클라이언트 F (1번째 대기)
+                ├─ 클라이언트 G (2번째 대기)
                 └─ ...
 ```
 
@@ -55,33 +55,33 @@ This project demonstrates a **real-time banking system** where multiple clients 
 
 ### Prerequisites
 
-- GCC compiler with pthread support
-- Linux/Unix operating system
-- Basic understanding of C programming and networking
+- pthread를 지원하는 GCC 컴파일러
+- Linux/Unix 운영체제
+- C 프로그래밍 및 네트워킹 기초 지식
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/tcp-multithread-bank-system.git
+# 레포지토리 클론
+git clone https://github.com/kyoung-mo/tcp-multithread-bank-system.git
 cd tcp-multithread-bank-system
 
-# Compile
+# Make로 빌드
 make
 
-# Or compile manually
+# 또는 수동 컴파일
 gcc -Wall -pthread -o bank_server bank_server.c
 gcc -Wall -pthread -o bank_client bank_client.c
 ```
 
 ### Running the System
 
-**Terminal 1: Start Server**
+**터미널 1: 서버 실행**
 ```bash
 ./bank_server
 ```
 
-**Terminal 2: Start Client**
+**터미널 2: 클라이언트 실행**
 ```bash
 ./bank_client
 ```
@@ -92,37 +92,37 @@ gcc -Wall -pthread -o bank_client bank_client.c
 
 ### Account Creation
 ```
-Input: I want to open an account
-> KB Bank
+입력: 계좌를 개설하고 싶습니다
+> KB은행
 
-✅ Account created successfully!
-   📌 Bank: KB Bank
-   💰 Initial balance: 0 KRW
-   📊 Total accounts: 1/5
+✅ 계좌가 성공적으로 개설되었습니다!
+   📌 은행: KB은행
+   💰 초기 잔액: 0원
+   📊 총 계좌 수: 1/5
 ```
 
 ### Deposit
 ```
-Input: Deposit
-> pi222 (Target ID)
-> 1 (Select account)
-> 100000 (Amount)
+입력: 입금
+> pi222 (대상 ID)
+> 1 (계좌 선택)
+> 100000 (금액)
 
-✅ Deposit completed!
-   💰 Amount: 100,000 KRW
-   📊 New balance: 100,000 KRW
+✅ 입금 완료!
+   💰 입금액: 100,000원
+   📊 잔액: 100,000원
 ```
 
 ### Withdrawal
 ```
-Input: Withdraw
-> 1 (Select account)
-> 222 (Password: last 3 digits of IP)
-> 50000 (Amount)
+입력: 출금
+> 1 (계좌 선택)
+> 222 (비밀번호: IP 끝 3자리)
+> 50000 (금액)
 
-✅ Withdrawal completed!
-   💰 Amount: 50,000 KRW
-   📊 New balance: 50,000 KRW
+✅ 출금 완료!
+   💰 출금액: 50,000원
+   📊 잔액: 50,000원
 ```
 
 ---
@@ -132,24 +132,24 @@ Input: Withdraw
 ### Data Structures
 
 ```c
-// Client Information
+// 클라이언트 정보
 typedef struct {
     char client_id[10];         // pi200 ~ pi224
-    int ip_last_digit;          // Last 3 digits of IP = password
-    Account accounts[5];        // Max 5 accounts
-    int account_count;          // Current account count
+    int ip_last_digit;          // IP 끝 3자리 = 비밀번호
+    Account accounts[5];        // 최대 5개 계좌
+    int account_count;          // 현재 계좌 수
 } ClientInfo;
 
-// Account Information
+// 계좌 정보
 typedef struct {
-    char bank_name[50];         // Bank name
-    int balance;                // Balance
-    bool is_active;             // Active status
+    char bank_name[50];         // 은행 이름
+    int balance;                // 잔액
+    bool is_active;             // 활성 상태
 } Account;
 
-// Waiting Queue
+// 대기 큐
 typedef struct {
-    int queue[MAX_QUEUE];       // Waiting client file descriptors
+    int queue[MAX_QUEUE];       // 대기 클라이언트 파일 디스크립터
     int front, rear, count;
     pthread_mutex_t mutex;
     pthread_cond_t cond;
@@ -159,18 +159,18 @@ typedef struct {
 ### Synchronization Mechanisms
 
 #### Mutex Protection
-- **db_mutex**: Protects client database operations
-- **workers_mutex**: Manages worker thread states
-- **queue_mutex**: Guards waiting queue operations
+- **db_mutex**: 클라이언트 데이터베이스 접근 보호
+- **workers_mutex**: 워커 스레드 상태 관리
+- **queue_mutex**: 대기 큐 접근 보호
 
 #### Condition Variables
-- **waiting_queue.cond**: Signals worker threads on new client arrival
+- **waiting_queue.cond**: 새 클라이언트 도착 시 워커 스레드에 신호 전달
 
 ```c
-// Worker thread waiting
+// 워커 스레드 대기
 pthread_cond_wait(&waiting_queue.cond, &workers_mutex);
 
-// Main thread signaling
+// 메인 스레드 신호 전달
 pthread_cond_broadcast(&waiting_queue.cond);
 ```
 
@@ -181,30 +181,30 @@ pthread_cond_broadcast(&waiting_queue.cond);
 ### Adjustable Parameters
 
 ```c
-#define PORT 8080              // Server port
-#define MAX_WORKERS 5          // Number of worker threads
-#define MAX_CLIENTS 25         // Total clients (pi200~pi224)
-#define MAX_ACCOUNTS 5         // Max accounts per client
-#define MAX_QUEUE 20           // Waiting queue capacity
+#define PORT 8080              // 서버 포트
+#define MAX_WORKERS 5          // 워커 스레드 수
+#define MAX_CLIENTS 25         // 전체 클라이언트 수 (pi200~pi224)
+#define MAX_ACCOUNTS 5         // 클라이언트당 최대 계좌 수
+#define MAX_QUEUE 20           // 대기 큐 최대 크기
 ```
 
 ### IP Range
-- Valid IPs: `10.10.16.200` ~ `10.10.16.224`
-- Local testing: `127.0.0.1` (mapped to pi200)
+- 유효 IP: `10.10.16.200` ~ `10.10.16.224`
+- 로컬 테스트: `127.0.0.1` (pi200으로 매핑)
 
 ---
 
 ## 🐛 Known Issues & Solutions
 
-### Issue 1: Menu not appearing on second connection
-**Cause**: Using `pthread_cond_signal()` wakes only one thread  
-**Solution**: Use `pthread_cond_broadcast()` to wake all threads
+### Issue 1: 두 번째 접속 시 메뉴가 나타나지 않음
+**원인**: `pthread_cond_signal()` 사용 시 하나의 스레드만 깨움  
+**해결**: `pthread_cond_broadcast()`로 모든 스레드를 깨우도록 변경
 
-### Issue 2: stdin buffer timing issue
-**Cause**: User typing before prompt appears  
-**Solution**: 
-- Detect empty input and re-prompt
-- Display usage warning at startup
+### Issue 2: stdin 버퍼 타이밍 문제
+**원인**: 프롬프트 출력 전에 사용자가 입력을 시작하는 경우  
+**해결**:
+- 빈 입력 감지 후 재출력 처리
+- 시작 시 사용 안내 메시지 표시
 
 ---
 
@@ -212,14 +212,10 @@ pthread_cond_broadcast(&waiting_queue.cond);
 
 ```
 tcp-multithread-bank-system/
-├── bank_server.c          # Server implementation
-├── bank_client.c          # Client implementation
-├── Makefile              # Build automation
-├── README.md             # This file
-├── EXAMPLES.md           # Usage examples
-├── USER_GUIDE.md         # User manual
-├── CHANGELOG.md          # Version history
-└── BLOG_POST.md          # Technical blog post (Korean)
+├── bank_server.c          # 서버 구현
+├── bank_client.c          # 클라이언트 구현
+├── Makefile               # 빌드 자동화
+└── README.md              # 이 파일
 ```
 
 ---
@@ -227,43 +223,25 @@ tcp-multithread-bank-system/
 ## 📚 Learning Outcomes
 
 ### Networking
-- TCP socket programming (`socket`, `bind`, `listen`, `accept`, `connect`)
-- Client-server architecture
-- Network byte order handling
+- TCP 소켓 프로그래밍 (`socket`, `bind`, `listen`, `accept`, `connect`)
+- 클라이언트-서버 아키텍처
+- 네트워크 바이트 오더 처리
 
 ### Multithreading
-- POSIX threads (`pthread_create`, `pthread_mutex`, `pthread_cond`)
-- Thread pool pattern
-- Race condition prevention
-- Deadlock avoidance
+- POSIX 스레드 (`pthread_create`, `pthread_mutex`, `pthread_cond`)
+- Thread Pool 패턴
+- Race Condition 방지
+- 데드락 회피
 
 ### Data Structures
-- Circular queue implementation
-- Thread-safe data structures
-- In-memory database design
+- 원형 큐 구현
+- 스레드 안전 자료구조
+- 인메모리 데이터베이스 설계
 
 ### System Programming
-- IP address conversion (`inet_ntop`, `inet_pton`)
-- Socket options (`SO_REUSEADDR`)
-- Signal handling
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- IP 주소 변환 (`inet_ntop`, `inet_pton`)
+- 소켓 옵션 (`SO_REUSEADDR`)
+- 시그널 처리
 
 ---
 
@@ -271,23 +249,4 @@ Contributions, issues, and feature requests are welcome!
 
 **구영모 (Koo Youngmo)**
 - Blog: [Velog](https://velog.io/@mommers)
-- GitHub: [@yourusername](https://github.com/kyoung-mo)
-
----
-
-## 📖 References
-
-- [Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)
-- [POSIX Threads Programming](https://computing.llnl.gov/tutorials/pthreads/)
-- [Linux System Programming](https://www.oreilly.com/library/view/linux-system-programming/9781449341527/)
-- [TCP/IP Illustrated, Volume 1](https://www.amazon.com/TCP-Illustrated-Vol-Addison-Wesley-Professional/dp/0201633469)
-
----
-
-## ⭐ Star History
-
-If you find this project useful, please consider giving it a star! ⭐
-
----
-
-**Built with ❤️ using C, TCP Sockets, and POSIX Threads**
+- GitHub: [@kyoung-mo](https://github.com/kyoung-mo)
